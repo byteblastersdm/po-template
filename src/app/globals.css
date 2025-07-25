@@ -1,5 +1,19 @@
 @import "tailwindcss";
+.input {
+  width: 100%;
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-bottom: 6px;
+  font-size: 0.9rem;
+}
 
+
+@media print {
+  .print\\:hidden {
+    display: none !important;
+  }
+}
 :root {
   --background: #ffffff;
   --foreground: #171717;
