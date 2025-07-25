@@ -197,10 +197,10 @@
     <thead>
       <tr>
         <th>Item #</th>
-        <th>Code</th>
+        <th>Description</th>
         <th>Qty</th>
-        <!-- <th>Unit</th> -->
         <th>Unit Price</th>
+        <th>Tax</th>
         <th>Total</th>
       </tr>
     </thead>
@@ -208,10 +208,11 @@
       <% items.forEach((item)=> { %>
         <tr>
           <td><%= item.name %></td>
-          <td><%= item.code %></td>
+          <td><%= item.desc %></td>
           <td><%= item.qty %></td>
           <!-- <td><%= item.unit || "pcs" %></td> -->
           <td>₹ <%= item.price.toFixed(2) %></td>
+          <td>₹ <%= item.tax.toFixed(2) %></td>
           <td>₹ <%= (item.qty * item.price).toFixed(2) %></td>
         </tr>
       <% }) %>
