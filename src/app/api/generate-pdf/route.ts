@@ -37,6 +37,7 @@ function incrementPoCounter(): string {
     const raw = fs.readFileSync(filePath, "utf-8");
     counters = JSON.parse(raw);
   } catch (e) {
+    console.error("Error reading PO counters file:", e);
     counters = {};
   }
 
@@ -48,7 +49,14 @@ function incrementPoCounter(): string {
 }
 
 export async function POST(req: NextRequest) {
-  const body = await req.json();
+  const body: {
+    poDate: string;
+    buyer: PartyInfo;
+    supplier: PartyInfo;
+    shipTo: PartyInfo;
+    terms: string;
+    items: Item[];
+  } = await req.json();
   const {
     poDate,
     buyer,
@@ -59,8 +67,8 @@ export async function POST(req: NextRequest) {
   } = body;
 
   const poNumber = incrementPoCounter(); // 🔥 this generates and saves it
-  const subtotal = items.reduce((sum: any, item: any) => sum + item.qty * item.price, 0);
-  const totalTax = items.reduce((sum: any, item: any) => sum + (item.qty * item.price * item.tax) / 100, 0);
+  const subtotal = items.reduce((sum: number, item: Item) => sum + item.qty * item.price, 0);
+  const totalTax = items.reduce((sum: number, item: Item) => sum + (item.qty * item.price * item.tax) / 100, 0);
   const grandTotal = subtotal + totalTax;
 
   try {

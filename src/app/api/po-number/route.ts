@@ -20,6 +20,7 @@ export async function GET() {
     const raw = fs.readFileSync(filePath, "utf-8");
     counters = JSON.parse(raw);
   } catch (e) {
+    console.error("Error reading PO counters file:", e);
     // file doesn't exist yet
   }
 
