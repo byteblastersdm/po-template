@@ -1,0 +1,8 @@
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  images: {
+    domains: ['genova-uploads.s3.ap-south-1.amazonaws.com'],
+  },
+};
+
+module.exports = nextConfig;
