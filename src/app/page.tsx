@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { use, useEffect, useState } from "react";
 import Head from "next/head";
 import Image from "next/image";
 
@@ -27,6 +27,14 @@ export default function Home() {
     setItems(updated);
   };
 
+  useEffect(() => {
+    setTerms(
+      `1. Delivery & Quality: Goods/services must be delivered on time and meet the specified quality standards.\n` +
+      `2. Rejection Clause: The buyer reserves the right to reject items that are defective or non-compliant.\n` +
+      `3. Payment Terms: Payment will be made as per agreed terms after successful delivery and acceptance.`
+    );
+  }, []);
+
   const addItem = () => {
     setItems([...items, { name: "", code: "", qty: 1, price: 0, tax: 18 }]);
   };
@@ -45,6 +53,8 @@ export default function Home() {
       terms,
       items,
     };
+
+
 
     const res = await fetch("/api/generate-pdf", {
       method: "POST",
@@ -65,7 +75,7 @@ export default function Home() {
       <Head>
         <title>Purchase Order</title>
       </Head>
-      <main className="p-6 bg-gray-100 min-h-screen print:bg-white">
+      <main className="p-6 bg-gray-100 min-h-screen print:bg-white text-gray-900">
         <div className="max-w-5xl mx-auto bg-white p-6 rounded shadow print:shadow-none print:border print:p-10">
           <div className="flex justify-between items-center mb-6">
             <div>
@@ -131,8 +141,8 @@ export default function Home() {
                 return (
                   <tr key={i}>
                     <td className="border p-2">{i + 1}</td>
-                    <td className="border p-2"><input className="input" value={item.name} onChange={(e) => handleItemChange(i, "name", e.target.value)} /></td>
-                    <td className="border p-2"><input className="input" value={item.code} onChange={(e) => handleItemChange(i, "code", e.target.value)} /></td>
+                    <td className="border p-2"><input className="input" placeholder="Item name" value={item.name} onChange={(e) => handleItemChange(i, "name", e.target.value)} /></td>
+                    <td className="border p-2"><input className="input" placeholder="Item Code" value={item.code} onChange={(e) => handleItemChange(i, "code", e.target.value)} /></td>
                     <td className="border p-2"><input type="number" className="input" value={item.qty} onChange={(e) => handleItemChange(i, "qty", parseFloat(e.target.value))} /></td>
                     <td className="border p-2"><input type="number" className="input" value={item.price} onChange={(e) => handleItemChange(i, "price", parseFloat(e.target.value))} /></td>
                     <td className="border p-2">
@@ -159,7 +169,13 @@ export default function Home() {
 
           <div className="mb-10">
             <h2 className="font-semibold">Terms & Conditions</h2>
-            <textarea className="input w-full" rows={4} placeholder="Enter your terms here..." onChange={(e) => setTerms(e.target.value)} />
+            <textarea
+              className="input w-full"
+              rows={4}
+              placeholder="Enter your terms here..."
+              value={terms}
+              onChange={(e) => setTerms(e.target.value)}
+            />
           </div>
 
           <div className="text-center print:hidden">
