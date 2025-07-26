@@ -104,8 +104,6 @@ export async function POST(req: NextRequest) {
       headers: {
         "Content-Type": "application/pdf",
         "Content-Disposition": `attachment; filename="${poNumber}.pdf"`,
-        "Content-Length": pdf.length.toString(),
-        "Accept-Ranges": "bytes",
       },
     });
   } catch (err) {
