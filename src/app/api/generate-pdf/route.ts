@@ -55,6 +55,7 @@ export async function POST(req: NextRequest) {
     supplier: PartyInfo;
     shipTo: PartyInfo;
     terms: string;
+    poNumber: string;
     items: Item[];
   } = await req.json();
   const {
@@ -63,10 +64,11 @@ export async function POST(req: NextRequest) {
     supplier,
     shipTo,
     terms,
+    poNumber,
     items,
   } = body;
 
-  const poNumber = incrementPoCounter(); // 🔥 this generates and saves it
+  // const poNumber = incrementPoCounter(); // 🔥 this generates and saves it
   const subtotal = items.reduce((sum: number, item: Item) => sum + item.qty * item.price, 0);
   const totalTax = items.reduce((sum: number, item: Item) => sum + (item.qty * item.price * item.tax) / 100, 0);
   const grandTotal = subtotal + totalTax;
